@@ -41,12 +41,14 @@ void DDAsimulator::Run() {
   for (int r = 0; r < max_round_num_; ++r) {
     for (int i = 0; i < node_.size(); ++i) {
       node_[i]->Send(r);
-      // node_[i]->Receive(r);
     }
+
+    for (int i = 0; i < node_.size(); ++i) {
+      node_[i]->Receive(r);
+    }
+
+    std::cout << "Communication round " << r << std::endl;
   }
 }
-
-
-
 
 void DDAsimulator::PrintOutput() {}

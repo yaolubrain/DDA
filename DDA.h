@@ -11,13 +11,20 @@ class DDA {
   ~DDA() {}
 
   virtual StateType InitState(int color) { 
-    StateType state = "init";
-    return state;
+    StateType state_init = "init";
+    return state_init;
   }
 
 
-  virtual MessageType Send(StateType state, int port, int degree, int color, int round_idx) {}
-  virtual StateType Receive(StateType state, std::vector<MessageType> msg_receive, int degree, int color, int round_idx) {}
+  virtual MessageType Send(StateType state, int port, int degree, int color, int round_idx) {
+    MessageType msg = "send";
+    return msg;
+  }
+
+  virtual StateType Receive(StateType state, std::vector<MessageType> msg_receive, int degree, int color, int round_idx) {
+    StateType state_receive = "receive";
+    return state_receive;
+  }
 
   std::vector<std::string> state_set_;
   std::vector<std::string> message_set_;
