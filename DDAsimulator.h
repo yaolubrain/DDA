@@ -18,15 +18,18 @@ class DDAsimulator {
   DDAsimulator(Graph* graph, DDA* dda) {
     graph_ = graph;
     dda_= dda;
+
+    max_round_num_ = 10000;
   }
   ~DDAsimulator() {}
 
   void Init();
   void Run();
   void PrintOutput();
+  void PrintNetwork();
 
+ private:
   std::vector<Node*> node_;
-
   int max_round_num_;
   Graph* graph_;
   DDA* dda_;

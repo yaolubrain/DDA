@@ -28,7 +28,7 @@ class Graph {
     return adj_list_[node_idx];
   }
 
-
+ private:
   int node_num_;
   double connectivity_;
   GraphType type_;

@@ -7,15 +7,18 @@
 
 int main() {
 
-  GraphType graph_type = "random";
-  Graph* graph = new Graph(10, 0.1, graph_type);
+  // GraphType graph_type = "random";
+  GraphType graph_type = "bipartite";
+  Graph* graph = new Graph(10, 0.5, graph_type);
   graph->Init();
-  // graph->PrintGraph();
+  graph->PrintGraph();
 
   DDA* dda = new DDA;
   DDAsimulator* dda_simulator = new DDAsimulator(graph, dda);
 
+
   dda_simulator->Init();
+  dda_simulator->PrintNetwork();
   dda_simulator->Run();
   dda_simulator->PrintOutput();
 

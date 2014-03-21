@@ -1,9 +1,11 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <iostream>
 #include <vector>
 #include "DDA.h"
 #include "typedef.h"
+
 
 class Node {
  public:
@@ -11,11 +13,40 @@ class Node {
     idx_ = idx;
     color_ = color;
     degree_ = 0;
-    state_ = "";
-    msg_send_ = "";
-    msg_receive_ = "";
   }
   ~Node() {}
+
+  void Init() {
+    state_ = dda_->InitState(color_);
+  }
+
+  void Send(int round_idx) {
+    for (int i = 0; i < port_.size(); ++i) {
+      MessageType msg = dda_->Send(state_, i, degree_, color_, round_idx);
+      msg_send_.push_back(msg);
+    }    
+  }
+
+
+  void Receive(int round_idx) {
+    for (int i = 0; i < port_.size(); ++i) {
+      MessageType msg = port_[i]->ReceiverMessage(idx_);
+      msg_receive_.push_back(msg);
+    }
+
+    state_ = dda_->Receive(state_, msg_receive_, degree_, color_, round_idx);
+  }
+
+  MessageType ReceiverMessage(int receiver_node_idx) {
+    for (int i = 0; i < port_.size(); ++i) {
+      if (port_[i]->node_idx() == receiver_node_idx) {
+        return msg_send_[i];
+      }
+    }
+
+    std::cerr << "Node " << idx_ << " has no receiver Node " << receiver_node_idx << std::endl;
+  }
+
 
   void set_degree(int degree) {
     degree_ = degree;
@@ -29,16 +60,23 @@ class Node {
     dda_ = dda;
   }
 
-  void Init() {
-
+  std::vector<Node*> port() {
+    return port_;
   }
 
+  int node_idx() {
+    return idx_;
+  }
+
+  
+
+ private:
   int idx_;
   int color_;
   int degree_;
   StateType state_;
-  MessageType msg_send_;
-  MessageType msg_receive_;
+  std::vector<MessageType> msg_send_;
+  std::vector<MessageType> msg_receive_;
   std::vector<Node*> port_;
   DDA* dda_;
 };
