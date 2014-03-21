@@ -7,12 +7,31 @@
 
 class Node {
  public:
-  Node() {}
+  Node(int idx, int color) {
+    idx_ = idx;
+    color_ = color;
+    degree_ = 0;
+    state_ = "";
+    msg_send_ = "";
+    msg_receive_ = "";
+  }
   ~Node() {}
-  
-  void Send();
-  void Message();
-  void Receive();
+
+  void set_degree(int degree) {
+    degree_ = degree;
+  }
+
+  void set_port(Node* node) {
+    port_.push_back(node);
+  }
+
+  void set_dda(DDA* dda) {
+    dda_ = dda;
+  }
+
+  void Init() {
+
+  }
 
   int idx_;
   int color_;
