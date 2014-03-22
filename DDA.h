@@ -26,8 +26,8 @@ class DDA {
     return state_receive;
   }
 
-  std::vector<std::string> state_set_;
-  std::vector<std::string> message_set_;
+  std::vector<StateType> state_set_;
+  std::vector<MessageType> message_set_;
   
 };
 

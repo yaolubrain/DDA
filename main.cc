@@ -3,6 +3,7 @@
 #include "Node.h"
 #include "Graph.h"
 #include "DDA.h"
+#include "BMM.h"
 
 
 int main() {
@@ -13,7 +14,7 @@ int main() {
   graph->Init();
   graph->PrintGraph();
 
-  DDA* dda = new DDA;
+  DDA* dda = new BMM;
   DDAsimulator* dda_simulator = new DDAsimulator(graph, dda);
 
 

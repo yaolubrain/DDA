@@ -28,7 +28,7 @@ void DDAsimulator::Init() {
 
 void DDAsimulator::PrintNetwork() {
   for (int i = 0; i < graph_->NodeNum(); ++i) {
-    std::cout << "Node " << i << " Ports: ";
+    std::cout << "node " << i << " ports: ";
     std::vector<Node*> port = node_[i]->port();
     for (int j = 0; j < port.size(); ++j) {
       std::cout << j << "-" << port[j]->node_idx() << " ";
@@ -38,7 +38,7 @@ void DDAsimulator::PrintNetwork() {
 }
 
 void DDAsimulator::Run() {
-  for (int r = 0; r < max_round_num_; ++r) {
+  for (int r = 1; r <= max_round_num_; ++r) {
     for (int i = 0; i < node_.size(); ++i) {
       node_[i]->Send(r);
     }
@@ -47,7 +47,7 @@ void DDAsimulator::Run() {
       node_[i]->Receive(r);
     }
 
-    std::cout << "Communication round " << r << std::endl;
+    std::cout << "communication round " << r << std::endl;
   }
 }
 

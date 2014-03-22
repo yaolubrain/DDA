@@ -44,7 +44,7 @@ class Node {
       }
     }
 
-    std::cerr << "Node " << idx_ << " has no receiver Node " << receiver_node_idx << std::endl;
+    std::cerr << "node " << idx_ << " has no receiver Node " << receiver_node_idx << std::endl;
   }
 
 
@@ -66,9 +66,7 @@ class Node {
 
   int node_idx() {
     return idx_;
-  }
-
-  
+  } 
 
  private:
   int idx_;
@@ -78,6 +76,9 @@ class Node {
   std::vector<MessageType> msg_send_;
   std::vector<MessageType> msg_receive_;
   std::vector<Node*> port_;
+  std::vector<int> X_;
+  std::vector<int> M_;
+
   DDA* dda_;
 };
 

@@ -8,7 +8,6 @@
 #include "DDA.h"
 #include "typedef.h"
 
-
 class Node;
 class Graph;
 class DDA;
@@ -18,7 +17,7 @@ class DDAsimulator {
   DDAsimulator(Graph* graph, DDA* dda) {
     graph_ = graph;
     dda_= dda;
-    max_round_num_ = 10;
+    max_round_num_ = 100;
   }
 
   ~DDAsimulator() {}

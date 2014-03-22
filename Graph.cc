@@ -57,13 +57,13 @@ void Graph::Init() {
     }   
 
   } else {
-    std::cerr << "Unknown graph type" << std::endl;
+    std::cerr << "unknown graph type" << std::endl;
   }
 }
 
 void Graph::PrintGraph() {
   for (int i = 0; i < adj_list_.size(); ++i) {
-    std::cout << "Node " << i << " Neighbors: ";
+    std::cout << "node " << i << " neighbors: ";
     for (int j = 0; j < adj_list_[i].size(); ++j) {
       std::cout << adj_list_[i][j] << " ";
     }
