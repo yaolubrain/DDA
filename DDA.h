@@ -14,7 +14,8 @@ class DDA {
   virtual void InitNode(Node* node) {}
   virtual void Send(Node* node, int round_idx) {}
   virtual void Receive(Node* node, int round_idx) {}  
+  virtual bool Stop(Node* node) {}  
+  virtual void PrintOutput(Node* node) {}  
 };
-
 
 #endif

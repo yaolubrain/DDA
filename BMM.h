@@ -8,7 +8,6 @@
 
 class Node;
 
-
 class BMM : public DDA {
  public:
   BMM() {}
@@ -119,6 +118,22 @@ class BMM : public DDA {
       }       
     }      
   }
+
+  bool Stop(Node* node) {
+    if (node->state() == "UR" || node->state() == "MR") {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  void PrintOutput(Node* node) {
+    if (node->state() == "MR") {
+      std::vector<Node*> port = node->port();
+      std::cout << "node " << node->idx() << " - node " << port[node->matched_port()]->idx();
+    }    
+  }  
+
 };
 
 

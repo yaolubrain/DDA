@@ -20,34 +20,6 @@ class Node {
     state_ = dda_->InitState(color_);
   }
 
-  // void Send(int round_idx) {
-  //   for (int i = 0; i < port_.size(); ++i) {
-  //     Message msg = dda_->Send(state_, i, degree_, color_, round_idx);
-  //     msg_send_.push_back(msg);
-  //   }    
-  // }
-
-
-  // void Receive(int round_idx) {
-  //   for (int i = 0; i < port_.size(); ++i) {
-  //     Message msg = port_[i]->ReceiverMessage(idx_);
-  //     msg_receive_.push_back(msg);
-  //   }
-
-  //   state_ = dda_->Receive(state_, msg_receive_, degree_, color_, round_idx);
-  // }
-
-  // Message ReceiverMessage(int receiver_idx) {
-  //   for (int i = 0; i < port_.size(); ++i) {
-  //     if (port_[i]->idx() == receiver_idx) {
-  //       return msg_send_[i];
-  //     }
-  //   }
-
-  //   std::cerr << "node " << idx_ << " has no receiver Node " << receiver_node_idx << std::endl;
-  // }
-
-
   int degree() {
     return degree_;
   }
@@ -63,7 +35,6 @@ class Node {
   void add_port(Node* node) {
     port_.push_back(node);
   }
-
   
   int idx() {
     return idx_;

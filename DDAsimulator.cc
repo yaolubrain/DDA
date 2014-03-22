@@ -36,9 +36,8 @@ void DDAsimulator::PrintNetwork() {
 }
 
 void DDAsimulator::Run() {
-
   for (int i = 0; i < node_.size(); ++i) {      
-    dda->InitNode(node_[i]);
+    dda_->InitNode(node_[i]);
   }
 
   for (int r = 1; r <= max_round_num_; ++r) {
@@ -50,8 +49,24 @@ void DDAsimulator::Run() {
       dda_->Receive(node_[i], r);
     }
 
+    int stop_node_num = 0;
+    for (int i = 0; i < node_.size(); ++i) {
+      stop_node_num += (int) dda_->Stop(node_[i]);
+    }
+
+    if (stop_node_num == node_.size()) {
+      break;
+    }
+
     std::cout << "communication round " << r << std::endl;
   }
 }
 
-void DDAsimulator::PrintOutput() {}
+void DDAsimulator::PrintOutput() {
+  std::cout << "output" << std::endl;
+  for (int i = 0; i < node_.size(); ++i) {      
+    dda->PrintOutput(node_[i]);
+    std::cout << std::endl;
+  }
+  
+}
