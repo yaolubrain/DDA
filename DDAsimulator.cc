@@ -111,7 +111,12 @@ void DDAsimulator::PrintOutput() {
   for (int i = 0; i < node_.size(); ++i) {      
     dda->PrintOutput(node_[i]);
     std::cout << std::endl;
+<<<<<<< HEAD
   }
   
 }
 >>>>>>> 5adc2e49d7a5f6c870ba3b1a57edd59e50c40219
+=======
+  }  
+}
+>>>>>>> f18ec32917dd343fc96d21612cf944d32fde82ed
