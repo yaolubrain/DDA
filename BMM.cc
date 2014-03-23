@@ -5,30 +5,36 @@
 #include "typedef.h"
 
 void BMM::InitNode(Node* node) { 
-  node->set_state(State("UR");    
-  set::vector<int> Xset;
+  node->set_state(State("UR"));    
+  std::vector<int> Xset;
+  MessageSet msg_set_empty;
   for (int i = 0; i < node->degree(); ++i) {
     Xset.push_back(i);
+    Message msg;
+    msg_set_empty.push_back(msg);
   }
   node->set_Xset(Xset);
+  node->set_msg_send(msg_set_empty);
+  node->set_msg_receive(msg_set_empty);
 }
 
 void BMM::Send(Node* node, int round_idx) {
-  MessageSet meg_send = node->meg_send();
+  MessageSet msg_send = node->msg_send();
+
   if (round_idx % 2 == 1) {      // round = 2k - 1  
     int k = (round_idx+1)/2;
     if (node->color() == 0) {    // white node
       if (node->state() == "UR") {
         if (k <= node->degree()) {  // k <= deg(v)
-          meg_send[k - 1] = "proposal";            
-          node->set_meg_send(meg_send);
+          msg_send[k - 1] = "proposal";            
+          node->set_msg_send(msg_send);
           return;
         } else {                    // k > deg(v)
-            node->set_state(State("US"));   
+          node->set_state(State("US"));   
         } 
       } else if (node->state() == "MR") {
-        std::fill(meg_send.begin(), meg_send.end(), Message("matched"));
-        node->set_meg_send(meg_send);
+        std::fill(msg_send.begin(), msg_send.end(), Message("matched"));
+        node->set_msg_send(msg_send);
         node->set_state(State("MS"));       // no need to set_matched_port since it doesn't change          
         return;
       }
@@ -37,8 +43,8 @@ void BMM::Send(Node* node, int round_idx) {
     if (node->color() == 1) {     // black node
       std::vector<int> Mset = node->Mset();        
       if (!node->Mset().empty()) {  
-        meg_send[Mset[0]] = "accept";
-        node->set_meg_send(meg_send);
+        msg_send[Mset[0]] = "accept";
+        node->set_msg_send(msg_send);
         node->set_state(State("MS"));
         node->set_matched_port(Mset[0]);          
       }
@@ -57,23 +63,23 @@ void BMM::Receive(Node* node, int round_idx) {
         std::vector<Node*> port = node->port();  
         for (int i = 0; i < port.size(); ++i) {
           std::vector<Node*> port_sender = port[i]->port();
-          for (int j = 0; i < port_sender.size(); ++j) {
-            if (port_sender[j]->idx() == node.idx()) {
-              MessageSet meg_send_sender = port_sender[j]->meg_send();
-              if (meg_send_sender[j] == "matched") {  
+          for (int j = 0; j < port_sender.size(); ++j) {
+            if (port_sender[j]->idx() == node->idx()) {
+              MessageSet msg_send_sender = port_sender[j]->msg_send();
+              if (msg_send_sender[j] == "matched") {  
               // remove the port from X                  
                 std::vector<int> Xset = node->Xset();
                 for (int k = 0; k < Xset.size(); ++k) {
                   if (Xset[k] == i) {
                     Xset.erase(Xset.begin() + k);
-                    node->set_Xset(X_set);
+                    node->set_Xset(Xset);
                     return;
                   }
                 }
-              } else if (meg_send_sender[j] == "proposal") {
+              } else if (msg_send_sender[j] == "proposal") {
                 std::vector<int> Mset = node->Mset();
                 Mset.push_back(i);
-                node->set_Mset(M_set);
+                node->set_Mset(Mset);
                 return;
               }
             }
@@ -87,10 +93,10 @@ void BMM::Receive(Node* node, int round_idx) {
         std::vector<Node*> port = node->port();  
         for (int i = 0; i < port.size(); ++i) {
           std::vector<Node*> port_sender = port[i]->port();
-          for (int j = 0; i < port_sender.size(); ++j) {
-            if (port_sender[j]->idx() == node.idx()) {
-              MessageSet meg_send_sender = port_sender[j]->meg_send();
-              if (meg_send_sender[j] == "accept") {  
+          for (int j = 0; j < port_sender.size(); ++j) {
+            if (port_sender[j]->idx() == node->idx()) {
+              MessageSet msg_send_sender = port_sender[j]->msg_send();
+              if (msg_send_sender[j] == "accept") {  
                 node->set_state(State("MR"));   
                 node->set_matched_port(i);
                 return;
@@ -112,7 +118,7 @@ bool BMM::Stop(Node* node) {
 }
 
 void BMM::PrintOutput(Node* node) {
-  if (node->state() == "MR") {
+  if (node->state() == "MS") {
     std::vector<Node*> port = node->port();
     std::cout << "node " << node->idx() << " - node " << port[node->matched_port()]->idx();
   }    

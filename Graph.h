@@ -16,19 +16,11 @@ class Graph {
   void Init();
   void PrintGraph();
 
-<<<<<<< HEAD
-  int NodeNum() {
-    return node_num_;
-  }
-
-  int NodeColor(int node_idx) {
-=======
   int node_num() {
     return node_num_;
   }
 
   int node_color(int node_idx) {
->>>>>>> 5adc2e49d7a5f6c870ba3b1a57edd59e50c40219
     return node_color_[node_idx];
   }
 
