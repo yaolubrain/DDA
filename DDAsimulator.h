@@ -17,7 +17,7 @@ class DDAsimulator {
   DDAsimulator(Graph* graph, DDA* dda) {
     graph_ = graph;
     dda_= dda;
-    max_round_num_ = 20;
+    max_round_num_ = 100;
   }
 
   ~DDAsimulator() {}

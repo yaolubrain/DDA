@@ -42,6 +42,11 @@ void DDAsimulator::Run() {
 
   for (int r = 1; r <= max_round_num_; ++r) {
     for (int i = 0; i < node_.size(); ++i) {      
+      node_[i]->empty_msg_send();
+    }
+    
+
+    for (int i = 0; i < node_.size(); ++i) {      
       dda_->Send(node_[i], r);
     }
 
@@ -54,19 +59,32 @@ void DDAsimulator::Run() {
       stop_node_num += (int) dda_->Stop(node_[i]);
     }
 
+    
+
+    // std::cout << "round " << r << std::endl;
+    // for (int i = 0; i < node_.size(); ++i) {    
+    //   MessageSet msg_send = node_[i]->msg_send();
+    //   std::cout << node_[i]->state() << " ";
+    //   for (int j = 0; j < msg_send.size(); ++j) {
+    //     if (!msg_send[j].empty()) {
+    //       std::cout << j << " " << msg_send[j] << " ";
+    //     }
+    //   }
+    //   std::cout << std::endl;
+    // }
+
+    std::cout << "round " << r << " stop node num: " << stop_node_num << std::endl;
+
     if (stop_node_num == node_.size()) {
       break;
     }
-
-    // std::cout << "round " << r << " stop node num: " << stop_node_num << std::endl;
   }
 }
 
 void DDAsimulator::PrintOutput() {
   std::cout << "output" << std::endl;
   for (int i = 0; i < node_.size(); ++i) {      
-    // dda_->PrintOutput(node_[i]);
-    // std::cout << std::endl;
-    std::cout << node_[i]->state()  << std::endl;
+    dda_->PrintOutput(node_[i]);
+    // std::cout << node_[i]->state()  << std::endl;
   }  
 }

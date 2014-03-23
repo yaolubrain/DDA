@@ -10,7 +10,7 @@ int main() {
 
   // GraphType graph_type = "random";
   GraphType graph_type = "bipartite";
-  Graph* graph = new Graph(10, 0.5, graph_type);
+  Graph* graph = new Graph(20, 0.5, graph_type);
   graph->Init();
   // graph->PrintGraph();
 

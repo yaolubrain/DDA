@@ -56,14 +56,6 @@ class Node {
     msg_send_ = msg_send;
   }
 
-  MessageSet msg_recevie() {
-    return msg_receive_;
-  }
-
-  void set_msg_receive(MessageSet msg_receive) {
-    msg_receive_ = msg_receive;
-  }
-
   std::vector<int> Xset() {
     return Xset_;
   }
@@ -88,6 +80,11 @@ class Node {
     matched_port_ = port;
   }
 
+  void empty_msg_send() {
+    std::fill(msg_send_.begin(), msg_send_.end(), Message(""));
+  }
+
+
  private:
   int idx_;
   int color_;
@@ -95,7 +92,6 @@ class Node {
   int matched_port_;
   State state_;
   MessageSet msg_send_;
-  MessageSet msg_receive_;
   std::vector<Node*> port_;
   std::vector<int> Xset_;
   std::vector<int> Mset_;
