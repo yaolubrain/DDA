@@ -26,8 +26,7 @@ void BMM::Send(Node* node, int round_idx) {
         } else {                    // k > deg(v)
             node->set_state(State("US"));   
         } 
-      } 
-      if (node->state() == "MR") {
+      } else if (node->state() == "MR") {
         std::fill(meg_send.begin(), meg_send.end(), Message("matched"));
         node->set_meg_send(meg_send);
         node->set_state(State("MS"));       // no need to set_matched_port since it doesn't change          

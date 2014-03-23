@@ -67,6 +67,5 @@ void DDAsimulator::PrintOutput() {
   for (int i = 0; i < node_.size(); ++i) {      
     dda->PrintOutput(node_[i]);
     std::cout << std::endl;
-  }
-  
+  }  
 }
