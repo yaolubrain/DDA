@@ -19,6 +19,7 @@ void DDAsimulator::Init() {
     // set ports of the node
     for (int j = 0; j < neighbor.size(); ++j) {
       node_[i]->add_port(node_[neighbor[j]]);
+      node_[i]->add_port_hash(neighbor[j], j);
     }  
   }
 }
@@ -42,10 +43,9 @@ void DDAsimulator::Run() {
 
   for (int r = 1; r <= max_round_num_; ++r) {
     for (int i = 0; i < node_.size(); ++i) {      
-      node_[i]->empty_msg_send();
+      node_[i]->clear_msg_send();
     }
-    
-
+        
     for (int i = 0; i < node_.size(); ++i) {      
       dda_->Send(node_[i], r);
     }
@@ -56,22 +56,8 @@ void DDAsimulator::Run() {
 
     int stop_node_num = 0;
     for (int i = 0; i < node_.size(); ++i) {
-      stop_node_num += (int) dda_->Stop(node_[i]);
+      stop_node_num += (int) dda_->Stop(node_[i]);      
     }
-
-    
-
-    // std::cout << "round " << r << std::endl;
-    // for (int i = 0; i < node_.size(); ++i) {    
-    //   MessageSet msg_send = node_[i]->msg_send();
-    //   std::cout << node_[i]->state() << " ";
-    //   for (int j = 0; j < msg_send.size(); ++j) {
-    //     if (!msg_send[j].empty()) {
-    //       std::cout << j << " " << msg_send[j] << " ";
-    //     }
-    //   }
-    //   std::cout << std::endl;
-    // }
 
     std::cout << "round " << r << " stop node num: " << stop_node_num << std::endl;
 
@@ -85,6 +71,5 @@ void DDAsimulator::PrintOutput() {
   std::cout << "output" << std::endl;
   for (int i = 0; i < node_.size(); ++i) {      
     dda_->PrintOutput(node_[i]);
-    // std::cout << node_[i]->state()  << std::endl;
   }  
 }

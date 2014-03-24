@@ -11,6 +11,7 @@ class DDA {
   DDA() {}
   ~DDA() {}
   
+  virtual int max_round(int node_num) {}
   virtual void InitNode(Node* node) {}
   virtual void Send(Node* node, int round_idx) {}
   virtual void Receive(Node* node, int round_idx) {}  

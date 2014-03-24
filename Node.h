@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+#include <set>
 #include "DDA.h"
 #include "typedef.h"
 
@@ -48,29 +50,14 @@ class Node {
     state_ = state;
   }
   
-  MessageSet msg_send() {
-    return msg_send_;
+  Message msg_send(int port) {
+    return msg_send_[port];
   }
 
-  void set_msg_send(MessageSet msg_send) {
-    msg_send_ = msg_send;
+  void set_msg_send(Message msg_send, int port) {
+    msg_send_[port] = msg_send;
   }
 
-  std::vector<int> Xset() {
-    return Xset_;
-  }
-
-  void set_Xset(std::vector<int> Xset) {
-    Xset_ = Xset;
-  }
-
-  std::vector<int> Mset() {
-    return Mset_;
-  }
-
-  void set_Mset(std::vector<int> Mset) {
-    Mset_ = Mset;
-  }
 
   int matched_port() {
     return matched_port_;
@@ -80,11 +67,46 @@ class Node {
     matched_port_ = port;
   }
 
-  void empty_msg_send() {
-    std::fill(msg_send_.begin(), msg_send_.end(), Message(""));
+  void clear_msg_send() {
+    msg_send_.assign(degree_, Message(""));
   }
 
+  void add_port_hash(int node, int port) {
+    port_hash_[node] = port;
+  }
 
+  int port_hash(int node) {
+    return port_hash_[node];
+  }
+
+  void insert_Xset(int port) {
+    Xset_.insert(port);
+  }
+
+  void erase_Xset(int port) {
+    Xset_.erase(port);
+  }
+
+  void insert_Mset(int port) {
+    Mset_.insert(port);
+  }
+
+  int min_Mset() {
+    return *Mset_.begin();
+  }
+
+  void msg_send_all_matched() {
+    msg_send_.assign(degree_, Message("matched"));
+  }
+
+  bool empty_Mset() {
+    return Mset_.empty();
+  }
+
+  bool empty_Xset() {
+    return Xset_.empty();
+  }
+  
  private:
   int idx_;
   int color_;
@@ -93,8 +115,9 @@ class Node {
   State state_;
   MessageSet msg_send_;
   std::vector<Node*> port_;
-  std::vector<int> Xset_;
-  std::vector<int> Mset_;
+  PortHash port_hash_;
+  std::set<int> Xset_;
+  std::set<int> Mset_;
 };
 
 

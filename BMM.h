@@ -13,6 +13,7 @@ class BMM : public DDA {
   BMM() {}
   ~BMM() {}
 
+  int max_round(int node_num);
   void InitNode(Node* node);
   void Send(Node* node, int round_idx);
   void Receive(Node* node, int round_idx);
