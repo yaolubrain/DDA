@@ -4,12 +4,12 @@
 #include <vector>
 #include "Node.h"
 #include "BMM.h"
-#include "typedef.h"
 
 class VC3 : public Node {
  public:
   typedef std::pair<BMM::State, BMM::State> State;
   typedef std::pair<BMM::Message, BMM::Message> Message;
+
   VC3(int idx, int color) {
     idx_ = idx;
     color_ = color;

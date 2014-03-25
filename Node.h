@@ -5,10 +5,10 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
-#include "typedef.h"
 
 class Node {
  public:
+  typedef std::unordered_map<int, int> PortHash;
   Node() {}
   ~Node() {}
 

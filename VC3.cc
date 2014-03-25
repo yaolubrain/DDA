@@ -1,7 +1,6 @@
 #include <vector>
 #include "VC3.h"
 #include "Node.h"
-#include "typedef.h"
 
 void VC3::Init() { 
   if (degree_ == 0) {
@@ -16,7 +15,6 @@ void VC3::Init() {
     }
   }
 }
-
 
 void VC3::Send(int round_idx) {
   if (round_idx % 2 == 1) {      // round = 2k - 1  
@@ -75,7 +73,7 @@ void VC3::Receive(int round_idx) {
 
 bool VC3::stop() {
   if ((state_.first == BMM::US || state_.first == BMM::MS) && 
-      (state_.second == BMM::US || state_.second == BMM::MS) {
+      (state_.second == BMM::US || state_.second == BMM::MS)) {
     return 1;
   } else {
     return 0;

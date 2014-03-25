@@ -5,8 +5,4 @@
 #include <vector>
 #include <unordered_map>
 
-typedef std::string GraphType;
-typedef std::string DDAType;
-typedef std::unordered_map<int, int> PortHash;
-
 #endif

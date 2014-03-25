@@ -2,7 +2,6 @@
 #include "BMM.h"
 #include "DDA.h"
 #include "Node.h"
-#include "typedef.h"
 
 void BMM::Init() { 
   if (degree_ == 0) {

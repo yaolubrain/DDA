@@ -8,14 +8,14 @@
 
 int main() {
 
-  GraphType graph_type = "random";
+  std::string graph_type = "random";
   // std::string graph_type = "bipartite";
   Graph* graph = new Graph(100, 0.5, graph_type);
   graph->Init();
   // graph->PrintGraph();
 
   // DDAType dda_type = "BMM"; 
-  DDAType dda_type = "VC3"; 
+  std::string dda_type = "VC3"; 
   DDAsimulator* dda_simulator = new DDAsimulator(graph, dda_type);
 
 

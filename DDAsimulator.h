@@ -6,7 +6,6 @@
 #include "Node.h"
 #include "Graph.h"
 #include "DDA.h"
-#include "typedef.h"
 
 class Node;
 class Graph;
@@ -14,7 +13,7 @@ class DDA;
 
 class DDAsimulator {
  public:
-  DDAsimulator(Graph* graph, DDAType dda_type) {
+  DDAsimulator(Graph* graph, std::string& dda_type) {
     graph_ = graph;
     dda_type_ = dda_type;
     if (dda_type_ == "BMM") {
@@ -35,7 +34,7 @@ class DDAsimulator {
   std::vector<Node*> nodes_;
   int max_round_num_;
   Graph* graph_;
-  DDAType dda_type_; 
+  std::string dda_type_; 
 };
 
 #endif

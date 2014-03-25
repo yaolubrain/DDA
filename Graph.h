@@ -2,11 +2,11 @@
 #define GRAPH_H
 
 #include <vector>
-#include "typedef.h"
+#include <string>
 
 class Graph {
  public:
-  Graph(int node_num, double connectivity, GraphType type) {
+  Graph(int node_num, double connectivity, std::string type) {
     node_num_ = node_num;
     type_ = type;
     connectivity_ = connectivity;
@@ -31,7 +31,7 @@ class Graph {
  private:
   int node_num_;
   double connectivity_;
-  GraphType type_;
+  std::string type_;
   std::vector<int> node_color_;
   std::vector< std::vector<int> > adj_list_;
 };
