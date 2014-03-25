@@ -3,7 +3,6 @@
 #include <random>
 
 #include "Graph.h"
-#include "typedef.h"
 
 
 void Graph::Init() {

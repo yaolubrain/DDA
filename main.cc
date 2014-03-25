@@ -1,9 +1,6 @@
 #include <iostream>
 #include "DDAsimulator.h"
-#include "Node.h"
 #include "Graph.h"
-#include "DDA.h"
-#include "BMM.h"
 
 
 int main() {

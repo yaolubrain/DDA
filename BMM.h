@@ -2,13 +2,12 @@
 #define BMM_H
 
 #include <vector>
-#include "DDA.h"
 #include "Node.h"
 
 class BMM : public Node {
  public:
-  typedef enum {UR, MR, US, MS} State;
-  typedef enum {proposal, matched, accept, empty} Message;
+  enum class State {UR, MR, US, MS};
+  enum class Message {proposal, matched, accept, empty};
 
   BMM(int idx, int color) {
     idx_ = idx;

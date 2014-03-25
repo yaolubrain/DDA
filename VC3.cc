@@ -4,11 +4,11 @@
 
 void VC3::Init() { 
   if (degree_ == 0) {
-    state_ = std::make_pair(BMM::MS, BMM::MS);    
+    state_ = std::make_pair(BMM::State::MS, BMM::State::MS);    
     return;
   }
 
-  state_ = std::make_pair(BMM::UR, BMM::UR); 
+  state_ = std::make_pair(BMM::State::UR, BMM::State::UR); 
   if (color_ == 1) {
     for (int i = 0; i < degree_; ++i) {
       Xset_.insert(i);
@@ -19,27 +19,27 @@ void VC3::Init() {
 void VC3::Send(int round_idx) {
   if (round_idx % 2 == 1) {      // round = 2k - 1  
     int k = (round_idx+1)/2;
-    if (state_.first == BMM::UR) { // white node
+    if (state_.first == BMM::State::UR) { // white node
       if (k <= degree_) {  // k <= deg(v)
-        msg_send_[k-1].first = BMM::proposal;
+        msg_send_[k-1].first = BMM::Message::proposal;
         return;
       } else {                    // k > deg(v)
-        state_.first = BMM::US;   
+        state_.first = BMM::State::US;   
       } 
-    } else if (state_.first == BMM::MR) {
+    } else if (state_.first == BMM::State::MR) {
       for (int i = 0; i < msg_send_.size(); ++i) {
-        msg_send_[i].first = BMM::matched;
+        msg_send_[i].first = BMM::Message::matched;
       }
-      state_.first = BMM::MS;         
+      state_.first = BMM::State::MS;         
       return;
     } 
   } else {                        // round = 2k 
     if (!Mset_.empty()) { 
-      msg_send_[*Mset_.begin()].second = BMM::accept;
-      state_.second = BMM::MS;
+      msg_send_[*Mset_.begin()].second = BMM::Message::accept;
+      state_.second = BMM::State::MS;
     }
     if (Xset_.empty()) {
-      state_.second = BMM::US;
+      state_.second = BMM::State::US;
     }
     return;
   }      
@@ -47,24 +47,24 @@ void VC3::Send(int round_idx) {
 
 void VC3::Receive(int round_idx) {
   if (round_idx % 2 == 1) {      // round = 2k - 1
-    if (state_.second == BMM::UR) {     // black node   
+    if (state_.second == BMM::State::UR) {     // black node   
       for (int i = 0; i < port_.size(); ++i) {
         int send_port = port_[i]->port_hash(idx_);
         BMM::Message msg = dynamic_cast<VC3*>(port_[i])->msg_send_[send_port].first;
-        if (msg == BMM::matched) {  
+        if (msg == BMM::Message::matched) {  
           Xset_.erase(i);
-        } else if (msg == BMM::proposal) {
+        } else if (msg == BMM::Message::proposal) {
           Mset_.insert(i);
         }
       }
     }
   } else {  // round = 2k 
-    if (state_.first == BMM::UR) {       // white node
+    if (state_.first == BMM::State::UR) {       // white node
       for (int i = 0; i < port_.size(); ++i) {
         int send_port = port_[i]->port_hash(idx_);
         BMM::Message msg = dynamic_cast<VC3*>(port_[i])->msg_send_[send_port].second;
-        if (msg == BMM::accept) {  
-          state_.first = BMM::MR;
+        if (msg == BMM::Message::accept) {  
+          state_.first = BMM::State::MR;
         }
       }
     }
@@ -72,8 +72,8 @@ void VC3::Receive(int round_idx) {
 }
 
 bool VC3::stop() {
-  if ((state_.first == BMM::US || state_.first == BMM::MS) && 
-      (state_.second == BMM::US || state_.second == BMM::MS)) {
+  if ((state_.first == BMM::State::US || state_.first == BMM::State::MS) && 
+      (state_.second == BMM::State::US || state_.second == BMM::State::MS)) {
     return 1;
   } else {
     return 0;
@@ -81,12 +81,12 @@ bool VC3::stop() {
 }
 
 void VC3::clear_msg_send() {
-  Message msg(BMM::empty, BMM::empty);
+  Message msg(BMM::Message::empty, BMM::Message::empty);
   msg_send_.assign(degree_, msg);
 }
 
 void VC3::PrintOutput() {
-  if (state_.first == BMM::MS || state_.second == BMM::MS ) {
+  if (state_.first == BMM::State::MS || state_.second == BMM::State::MS ) {
     std::cout << "node " << idx_ << std::endl;
   }    
 }  
