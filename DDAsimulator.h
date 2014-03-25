@@ -14,10 +14,12 @@ class DDA;
 
 class DDAsimulator {
  public:
-  DDAsimulator(Graph* graph, DDA* dda) {
+  DDAsimulator(Graph* graph, DDAType dda_type) {
     graph_ = graph;
-    dda_= dda;
-    max_round_num_ = dda_->max_round(graph_->node_num());
+    dda_type_ = dda_type;
+    if (dda_type_ == "BMM") {
+      max_round_num_ = 2*graph_->node_num(); 
+    }
   }
 
   ~DDAsimulator() {}
@@ -28,10 +30,10 @@ class DDAsimulator {
   void PrintNetwork();
 
  private:
-  std::vector<Node*> node_;
+  std::vector<Node*> nodes_;
   int max_round_num_;
   Graph* graph_;
-  DDA* dda_;
+  DDAType dda_type_; 
 };
 
 #endif

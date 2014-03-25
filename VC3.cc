@@ -1,10 +1,9 @@
 #include <vector>
-#include "BMM.h"
-#include "DDA.h"
+#include "VC3.h"
 #include "Node.h"
 #include "typedef.h"
 
-void BMM::Init() { 
+void VC3::Init() { 
   if (degree_ == 0) {
     state_ = "US";    
     return;
@@ -18,7 +17,7 @@ void BMM::Init() {
   }
 }
 
-void BMM::Send(int round_idx) {
+void VC3::Send(int round_idx) {
 
   if (round_idx % 2 == 1) {      // round = 2k - 1  
     int k = (round_idx+1)/2;
@@ -51,14 +50,14 @@ void BMM::Send(int round_idx) {
   }      
 }
 
-void BMM::Receive(int round_idx) {
+void VC3::Receive(int round_idx) {
 
   if (round_idx % 2 == 1) {      // round = 2k - 1
     if (color_ == 1) {    // black node
       if (state_ == "UR") {        
         for (int i = 0; i < port_.size(); ++i) {
           int send_port = port_[i]->port_hash(idx_);
-          Message msg = dynamic_cast<BMM*>(port_[i])->msg_send_[send_port];
+          Message msg = dynamic_cast<VC3*>(port_[i])->msg_send_[send_port];
           if (msg == "matched") {  
             Xset_.erase(i);
           } else if (msg == "proposal") {
@@ -72,7 +71,7 @@ void BMM::Receive(int round_idx) {
       if (state_ == "UR") {
         for (int i = 0; i < port_.size(); ++i) {
           int send_port = port_[i]->port_hash(idx_);
-          Message msg = dynamic_cast<BMM*>(port_[i])->msg_send_[send_port];
+          Message msg = dynamic_cast<VC3*>(port_[i])->msg_send_[send_port];
           if (msg == "accept") {  
             state_ = "MR";
             matched_port_ = i;
@@ -83,7 +82,7 @@ void BMM::Receive(int round_idx) {
   }      
 }
 
-bool BMM::stop() {
+bool VC3::stop() {
   if (state_ == "US" || state_ == "MS") {
     return 1;
   } else {
@@ -91,12 +90,12 @@ bool BMM::stop() {
   }
 }
 
-void BMM::clear_msg_send() {
+void VC3::clear_msg_send() {
   msg_send_.assign(degree_, "");
 }
 
 
-void BMM::PrintOutput() {
+void VC3::PrintOutput() {
   if (state_ == "MS") {
     std::cout << "node " << idx_ << " - node " << port_[matched_port_]->idx() << std::endl;
   }    

@@ -9,13 +9,13 @@
 int main() {
 
   // GraphType graph_type = "random";
-  GraphType graph_type = "bipartite";
-  Graph* graph = new Graph(20, 0.2, graph_type);
+  std::string graph_type = "bipartite";
+  Graph* graph = new Graph(100, 0.2, graph_type);
   graph->Init();
   // graph->PrintGraph();
 
-  DDA* dda = new BMM;
-  DDAsimulator* dda_simulator = new DDAsimulator(graph, dda);
+  DDAType dda_type = "BMM"; 
+  DDAsimulator* dda_simulator = new DDAsimulator(graph, dda_type);
 
 
   dda_simulator->Init();

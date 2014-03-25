@@ -4,19 +4,17 @@
 #include "Node.h"
 #include "typedef.h"
 
-class Node;
-
 class DDA {
  public:
   DDA() {}
   ~DDA() {}
   
   virtual int max_round(int node_num) {}
-  virtual void InitNode(Node* node) {}
-  virtual void Send(Node* node, int round_idx) {}
-  virtual void Receive(Node* node, int round_idx) {}  
-  virtual bool Stop(Node* node) {}  
-  virtual void PrintOutput(Node* node) {}  
+  virtual void InitNode() {}
+  virtual void Send(int round_idx) {}
+  virtual void Receive(int round_idx) {}  
+  virtual bool stop() {}  
+  virtual void PrintOutput() {}  
 };
 
 #endif

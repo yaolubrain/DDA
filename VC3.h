@@ -1,18 +1,17 @@
-#ifndef BMM_H
-#define BMM_H
+#ifndef VC3_H
+#define VC3_H
 
 #include <vector>
-#include "DDA.h"
 #include "Node.h"
 #include "typedef.h"
 
-class BMM : public Node {
+class VC3 : public Node {
 
-  typedef std::string State;
-  typedef std::string Message;
+  typedef std::pair<std::string, std::string> State;
+  typedef std::pair<std::string, std::string> Message;
 
  public:
-  BMM(int idx, int color) {
+  VC3(int idx, int color) {
     idx_ = idx;
     color_ = color;
   }
