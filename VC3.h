@@ -7,11 +7,9 @@
 #include "typedef.h"
 
 class VC3 : public Node {
-
+ public:
   typedef std::pair<BMM::State, BMM::State> State;
   typedef std::pair<BMM::Message, BMM::Message> Message;
-
- public:
   VC3(int idx, int color) {
     idx_ = idx;
     color_ = color;

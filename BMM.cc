@@ -19,7 +19,6 @@ void BMM::Init() {
 }
 
 void BMM::Send(int round_idx) {
-
   if (round_idx % 2 == 1) {      // round = 2k - 1  
     int k = (round_idx+1)/2;
     if (color_ == 0) {    // white node
@@ -52,7 +51,6 @@ void BMM::Send(int round_idx) {
 }
 
 void BMM::Receive(int round_idx) {
-
   if (round_idx % 2 == 1) {      // round = 2k - 1
     if (color_ == 1) {    // black node
       if (state_ == UR) {        
@@ -94,7 +92,6 @@ bool BMM::stop() {
 void BMM::clear_msg_send() {
   msg_send_.assign(degree_, empty);
 }
-
 
 void BMM::PrintOutput() {
   if (state_ == MS) {

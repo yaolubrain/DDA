@@ -44,8 +44,6 @@ class Node {
     return port_hash_[node];
   }
 
-
-
   virtual void Init() {}
   virtual void Send(int round_idx) {}
   virtual void Receive(int round_idx) {}
