@@ -5,11 +5,11 @@
 
 void VC3::Init() { 
   if (degree_ == 0) {
-    state_ = "US";    
+    state_ = std::make_pair(US, US);    
     return;
   }
 
-  state_ = "UR"; 
+  state_ = std::make_pair(UR, UR); 
   if (color_ == 1) {
     for (int i = 0; i < degree_; ++i) {
       Xset_.insert(i);
@@ -17,6 +17,7 @@ void VC3::Init() {
   }
 }
 
+/*
 void VC3::Send(int round_idx) {
 
   if (round_idx % 2 == 1) {      // round = 2k - 1  
@@ -99,4 +100,4 @@ void VC3::PrintOutput() {
   if (state_ == "MS") {
     std::cout << "node " << idx_ << " - node " << port_[matched_port_]->idx() << std::endl;
   }    
-}  
+}  */

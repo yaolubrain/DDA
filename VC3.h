@@ -3,19 +3,20 @@
 
 #include <vector>
 #include "Node.h"
+#include "BMM.h"
 #include "typedef.h"
 
 class VC3 : public Node {
 
-  typedef std::pair<std::string, std::string> State;
-  typedef std::pair<std::string, std::string> Message;
+  typedef std::pair<BMM::State, BMM::State> State;
+  typedef std::pair<BMM::Message, BMM::Message> Message;
 
  public:
   VC3(int idx, int color) {
     idx_ = idx;
     color_ = color;
   }
-  ~BMM() {}
+  ~VC3() {}
 
   void Init();
   void Send(int round_idx);

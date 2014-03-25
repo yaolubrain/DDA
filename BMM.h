@@ -7,11 +7,9 @@
 #include "typedef.h"
 
 class BMM : public Node {
-
-  typedef std::string State;
-  typedef std::string Message;
-
  public:
+  typedef enum {UR, MR, US, MS} State;
+  typedef enum {proposal, matched, accept, empty} Message;
   BMM(int idx, int color) {
     idx_ = idx;
     color_ = color;
