@@ -2,14 +2,18 @@
 #include <vector>
 #include "DDAsimulator.h"
 #include "BMM.h"
+#include "VC3.h"
 
 void DDAsimulator::Init() {
   // build the port-numbered network according to the graph
   for (int i = 0; i < graph_->node_num(); ++i) {
+    Node* new_node;
     if (dda_type_ == "BMM") {
-      Node* new_node = new BMM(i, graph_->node_color(i));
-      nodes_.push_back(new_node);
+      new_node = new BMM(i, graph_->node_color(i));      
+    } else if (dda_type_ == "VC3") {
+      new_node = new VC3(i, graph_->node_color(i));      
     }
+    nodes_.push_back(new_node);
   }
 
   std::vector<int> neighbor;

@@ -19,6 +19,8 @@ class DDAsimulator {
     dda_type_ = dda_type;
     if (dda_type_ == "BMM") {
       max_round_num_ = 2*graph_->node_num(); 
+    } else if (dda_type_ == "VC3") {
+      max_round_num_ = graph_->node_num(); 
     }
   }
 
