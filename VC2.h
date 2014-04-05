@@ -1,19 +1,20 @@
-#ifndef BMM_H
-#define BMM_H
+#ifndef VC3_H
+#define VC3_H
 
 #include <vector>
 #include "Node.h"
+#include "BMM.h"
 
-class BMM : public Node {
+class VC2 : public Node {
  public:
-  enum class State {UR, MR, US, MS};
-  enum class Message {proposal, matched, accept, empty};
+  typedef std::pair<BMM::State, BMM::State> State;
+  typedef std::pair<BMM::Message, BMM::Message> Message;
 
-  BMM(int idx, int color) {
+  VC2(int idx, int color) {
     idx_ = idx;
     color_ = color;
   }
-  ~BMM() {}
+  ~VC2() {}
 
   void Init();
   void Send(int round_idx);
@@ -21,7 +22,8 @@ class BMM : public Node {
   void PrintOutput();
   bool Stop();
   void ClearMsgSend();
-
+  void Saturated();
+  
  private:
   State state_;
   std::vector<Message> msg_send_;

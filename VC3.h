@@ -20,8 +20,8 @@ class VC3 : public Node {
   void Send(int round_idx);
   void Receive(int round_idx);
   void PrintOutput();
-  bool stop();
-  void clear_msg_send();
+  bool Stop();
+  void ClearMsgSend();
 
  private:
   State state_;

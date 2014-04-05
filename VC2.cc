@@ -1,8 +1,8 @@
 #include <vector>
-#include "VC3.h"
+#include "VC2.h"
 #include "Node.h"
 
-void VC3::Init() { 
+void VC2::Init() { 
   if (degree_ == 0) {
     state_ = std::make_pair(BMM::State::MS, BMM::State::MS);    
     return;
@@ -16,7 +16,7 @@ void VC3::Init() {
   }
 }
 
-void VC3::Send(int round_idx) {
+void VC2::Send(int round_idx) {
   if (round_idx % 2 == 1) {      // round = 2k - 1  
     int k = (round_idx+1)/2;
     if (state_.first == BMM::State::UR) { // white node
@@ -45,12 +45,12 @@ void VC3::Send(int round_idx) {
   }      
 }
 
-void VC3::Receive(int round_idx) {
+void VC2::Receive(int round_idx) {
   if (round_idx % 2 == 1) {      // round = 2k - 1
     if (state_.second == BMM::State::UR) {     // black node   
       for (int i = 0; i < port_.size(); ++i) {
         int send_port = port_[i]->port_hash(idx_);
-        BMM::Message msg = dynamic_cast<VC3*>(port_[i])->msg_send_[send_port].first;
+        BMM::Message msg = dynamic_cast<VC2*>(port_[i])->msg_send_[send_port].first;
         if (msg == BMM::Message::matched) {  
           Xset_.erase(i);
         } else if (msg == BMM::Message::proposal) {
@@ -62,7 +62,7 @@ void VC3::Receive(int round_idx) {
     if (state_.first == BMM::State::UR) {       // white node
       for (int i = 0; i < port_.size(); ++i) {
         int send_port = port_[i]->port_hash(idx_);
-        BMM::Message msg = dynamic_cast<VC3*>(port_[i])->msg_send_[send_port].second;
+        BMM::Message msg = dynamic_cast<VC2*>(port_[i])->msg_send_[send_port].second;
         if (msg == BMM::Message::accept) {  
           state_.first = BMM::State::MR;
         }
@@ -71,7 +71,7 @@ void VC3::Receive(int round_idx) {
   }      
 }
 
-bool VC3::Stop() {
+bool VC2::Stop() {
   if ((state_.first == BMM::State::US || state_.first == BMM::State::MS) && 
       (state_.second == BMM::State::US || state_.second == BMM::State::MS)) {
     return 1;
@@ -80,13 +80,21 @@ bool VC3::Stop() {
   }
 }
 
-void VC3::ClearMsgSend() {
+void VC2::ClearMsgSend() {
   Message msg(BMM::Message::empty, BMM::Message::empty);
   msg_send_.assign(degree_, msg);
 }
 
-void VC3::PrintOutput() {
+void VC2::PrintOutput() {
   if (state_.first == BMM::State::MS || state_.second == BMM::State::MS ) {
     std::cout << "node " << idx_ << std::endl;
   }    
 }  
+
+bool VC2::Saturated() {
+  if (state_.first == BMM::State::MS || state_.second == BMM::State::MS) {
+    return true;
+  } else {
+    return false;
+  }
+}

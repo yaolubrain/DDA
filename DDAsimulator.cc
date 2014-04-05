@@ -8,11 +8,15 @@ void DDAsimulator::Init() {
   // build the port-numbered network according to the graph
   for (int i = 0; i < graph_->node_num(); ++i) {
     Node* new_node;
+
     if (dda_type_ == "BMM") {
       new_node = new BMM(i, graph_->node_color(i));      
     } else if (dda_type_ == "VC3") {
       new_node = new VC3(i, graph_->node_color(i));      
+    } else if (dda_type_ == "VC2") {
+      new_node = new VC2(i, graph_->node_color(i));      
     }
+
     nodes_.push_back(new_node);
   }
 
@@ -44,36 +48,73 @@ void DDAsimulator::PrintNetwork() {
   }
 }
 
-void DDAsimulator::Run() {
-  for (int i = 0; i < nodes_.size(); ++i) {      
-    nodes_[i]->Init();
-  }
-
+void DDAsimulator::RunInteral() {
   for (int r = 1; r <= max_round_num_; ++r) {
     for (int i = 0; i < nodes_.size(); ++i) {      
-      nodes_[i]->clear_msg_send();
-    }
-        
+      nodes_[i]->ClearMsgSend();
+    }          
+
     for (int i = 0; i < nodes_.size(); ++i) {      
       nodes_[i]->Send(r);
-    }
+    }  
 
     for (int i = 0; i < nodes_.size(); ++i) {
       nodes_[i]->Receive(r);
-    }
+    }  
 
     int stop_node_num = 0;
     for (int i = 0; i < nodes_.size(); ++i) {
-      stop_node_num += (int) nodes_[i]->stop();      
-    }
+      stop_node_num += (int) nodes_[i]->Stop();      
+    }  
 
-    std::cout << "round " << r << " stop node num: " << stop_node_num << std::endl;
+    std::cout << "round " << r << " stop node num: " << stop_node_num << std::endl;  
 
     if (stop_node_num == nodes_.size()) {
       break;
     }
   }
 }
+
+void DDAsimulator::Run() {
+  for (int i = 0; i < nodes_.size(); ++i) {      
+    nodes_[i]->Init();
+  }
+
+  if (dda_ != "VC2") {
+    RunInteral();
+  } else {    
+    while (!AllEdgeSaturated()) {
+      RunInteral();
+      DeleteSaturatedEdges();      
+    }  
+
+  }
+}
+
+bool DDAsimulator::AllEdgeSaturated() {
+  bool saturated = true;
+  for (int i = 0; i < nodes_.size(); ++i) {
+    if (!nodes_[i]->Saturated()) {
+      saturated = false;
+      break;
+    }      
+  }
+
+  return saturated;
+}
+
+void DDAsimulator::DeleteSaturatedEdges() {
+  for (int i = 0; i < nodes_.size(); ++i) {
+    std::vector<Node*> port = nodes_[i]->port();      
+    for (int j = 0; j < port.size(); ++j) {
+      if (port[j]->Saturated()) {
+        nodes_[i]->delete_port(j);  
+        port[j]->delete_port(port[j]->port_hash(nodes_[i]->idx()));
+      }
+    }
+  }
+}
+
 
 void DDAsimulator::PrintOutput() {
   std::cout << "output" << std::endl;

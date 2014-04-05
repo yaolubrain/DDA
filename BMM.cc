@@ -79,7 +79,7 @@ void BMM::Receive(int round_idx) {
   }      
 }
 
-bool BMM::stop() {
+bool BMM::Stop() {
   if (state_ == State::US || state_ == State::MS) {
     return 1;
   } else {
@@ -87,7 +87,7 @@ bool BMM::stop() {
   }
 }
 
-void BMM::clear_msg_send() {
+void BMM::ClearMsgSend() {
   msg_send_.assign(degree_, Message::empty);
 }
 

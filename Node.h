@@ -44,12 +44,18 @@ class Node {
     return port_hash_[node];
   }
 
+  void delete_port(int port) {
+    port_hash_.erase(port_[port]->idx());
+    port_.erase(port_begin() + port);
+  }
+
   virtual void Init() {}
   virtual void Send(int round_idx) {}
   virtual void Receive(int round_idx) {}
-  virtual bool stop() {}
+  virtual bool Stop() {}
   virtual void PrintOutput() {}
-  virtual void clear_msg_send() {}
+  virtual void ClearMsgSend() {}
+  virtual bool Saturated() {}
 
  protected:
   int idx_;
