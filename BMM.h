@@ -19,7 +19,7 @@ class BMM : public Node {
   void Send(int round_idx);
   void Receive(int round_idx);
   void PrintOutput();
-  bool Stop();
+  bool IsStopped();
   void ClearMsgSend();
 
  private:

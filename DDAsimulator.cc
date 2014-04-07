@@ -3,6 +3,7 @@
 #include "DDAsimulator.h"
 #include "BMM.h"
 #include "VC3.h"
+#include "VC2.h"
 
 void DDAsimulator::Init() {
   // build the port-numbered network according to the graph
@@ -64,7 +65,7 @@ void DDAsimulator::RunInteral() {
 
     int stop_node_num = 0;
     for (int i = 0; i < nodes_.size(); ++i) {
-      stop_node_num += (int) nodes_[i]->Stop();      
+      stop_node_num += (int) nodes_[i]->IsStopped();      
     }  
 
     std::cout << "round " << r << " stop node num: " << stop_node_num << std::endl;  
@@ -80,10 +81,20 @@ void DDAsimulator::Run() {
     nodes_[i]->Init();
   }
 
-  if (dda_ != "VC2") {
+  if (dda_type_ != "VC2") {    
+
     RunInteral();
+
   } else {    
+
     while (!AllEdgeSaturated()) {
+
+      for (int i = 0; i < nodes_.size(); ++i) {      
+        if (nodes_[i]->IsSaturated())        
+          nodes_[i]->Init();
+        }
+      }
+
       RunInteral();
       DeleteSaturatedEdges();      
     }  
@@ -94,7 +105,7 @@ void DDAsimulator::Run() {
 bool DDAsimulator::AllEdgeSaturated() {
   bool saturated = true;
   for (int i = 0; i < nodes_.size(); ++i) {
-    if (!nodes_[i]->Saturated()) {
+    if (!nodes_[i]->IsSaturated()) {
       saturated = false;
       break;
     }      
@@ -105,11 +116,11 @@ bool DDAsimulator::AllEdgeSaturated() {
 
 void DDAsimulator::DeleteSaturatedEdges() {
   for (int i = 0; i < nodes_.size(); ++i) {
-    std::vector<Node*> port = nodes_[i]->port();      
-    for (int j = 0; j < port.size(); ++j) {
-      if (port[j]->Saturated()) {
+    if (nodes_[i]->IsSaturated()) {
+      std::vector<Node*> port = nodes_[i]->port();
+      for (int j = 0; j < port.size(); ++j) {      
+        port[j]->delete_port(port[j]->port_hash(nodes_[j]->idx()));
         nodes_[i]->delete_port(j);  
-        port[j]->delete_port(port[j]->port_hash(nodes_[i]->idx()));
       }
     }
   }

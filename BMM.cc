@@ -79,7 +79,7 @@ void BMM::Receive(int round_idx) {
   }      
 }
 
-bool BMM::Stop() {
+bool BMM::IsStopped() {
   if (state_ == State::US || state_ == State::MS) {
     return 1;
   } else {

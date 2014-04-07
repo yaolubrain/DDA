@@ -12,7 +12,8 @@ int main() {
   // graph->PrintGraph();
 
   // DDAType dda_type = "BMM"; 
-  std::string dda_type = "VC3"; 
+  // std::string dda_type = "VC3"; 
+  std::string dda_type = "VC2"; 
   DDAsimulator* dda_simulator = new DDAsimulator(graph, dda_type);
 
 

@@ -1,5 +1,5 @@
-#ifndef VC3_H
-#define VC3_H
+#ifndef VC2_H
+#define VC2_H
 
 #include <vector>
 #include "Node.h"
@@ -20,9 +20,12 @@ class VC2 : public Node {
   void Send(int round_idx);
   void Receive(int round_idx);
   void PrintOutput();
-  bool Stop();
+  bool IsStopped();
   void ClearMsgSend();
-  void Saturated();
+  bool IsSaturated();
+  bool IsMatched2();
+  State state();
+  void  DeleteAllEdges();
   
  private:
   State state_;

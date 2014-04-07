@@ -1,5 +1,6 @@
 #include <vector>
 #include "VC2.h"
+#include "BMM.h"
 #include "Node.h"
 
 void VC2::Init() { 
@@ -71,9 +72,17 @@ void VC2::Receive(int round_idx) {
   }      
 }
 
-bool VC2::Stop() {
+bool VC2::IsStopped() {
   if ((state_.first == BMM::State::US || state_.first == BMM::State::MS) && 
       (state_.second == BMM::State::US || state_.second == BMM::State::MS)) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+bool VC2::IsMatched2() {
+  if (state_.first == BMM::State::MS && state_.second == BMM::State::MS) {
     return 1;
   } else {
     return 0;
@@ -91,10 +100,18 @@ void VC2::PrintOutput() {
   }    
 }  
 
-bool VC2::Saturated() {
+bool VC2::IsSaturated() {
   if (state_.first == BMM::State::MS || state_.second == BMM::State::MS) {
     return true;
-  } else {
-    return false;
   }
+  
+  bool saturated = true;
+  for (int i = 0; i < port_.size(); ++i) {
+    if (!port_[i]->IsMatched2()) {
+      saturated = false;
+    }
+  }
+
+  return saturated;
 }
+

@@ -71,7 +71,7 @@ void VC3::Receive(int round_idx) {
   }      
 }
 
-bool VC3::Stop() {
+bool VC3::IsStopped() {
   if ((state_.first == BMM::State::US || state_.first == BMM::State::MS) && 
       (state_.second == BMM::State::US || state_.second == BMM::State::MS)) {
     return 1;

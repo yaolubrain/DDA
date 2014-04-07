@@ -1,5 +1,5 @@
 dda: *.h *.cc
-	g++ -o dda *.h *.cc -std=c++11
+	g++ -o dda *.h *.cc -std=c++0x
 
 
 clean: 

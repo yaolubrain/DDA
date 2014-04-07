@@ -25,9 +25,12 @@ class DDAsimulator {
   ~DDAsimulator() {}
 
   void Init();
+  void RunInteral();
   void Run();
   void PrintOutput();
   void PrintNetwork();
+  void DeleteSaturatedEdges();
+  bool AllEdgeSaturated();
 
  private:
   std::vector<Node*> nodes_;
